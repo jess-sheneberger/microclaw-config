@@ -11,5 +11,11 @@ set -a; . ./.env; set +a
 
 yq '(.. | select(tag == "!!str")) |= envsubst(nu)' microclaw.config.yaml.template > microclaw.config.yaml
 chmod 640 microclaw.config.yaml
+# Container's microclaw user is uid/gid 10001; the host file's group must match
+# so the bind-mount is readable inside the container. `>` preserves ownership on
+# existing files, so after the first run this stays a no-op.
+if [ "$(stat -c '%g' microclaw.config.yaml)" != "10001" ]; then
+    sudo chgrp 10001 microclaw.config.yaml
+fi
 
-docker compose up -d --force-recreate
+docker compose up -d --build --force-recreate

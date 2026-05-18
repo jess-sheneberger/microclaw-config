@@ -1,6 +1,7 @@
 services:
   microclaw:
-    image: ghcr.io/microclaw/microclaw:latest
+    image: microclaw-local:latest
+    build: .
     restart: unless-stopped
     ports:
       - "127.0.0.1:10961:10961"

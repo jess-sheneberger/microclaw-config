@@ -7,9 +7,13 @@ channels:
     enabled: true
   discord:
     enabled: true
-    bot_token: "${DISCORD_BOT_TOKEN}"
-    allowed_channels: [1505383554597523708, 1505384147089096776]
-    no_mention: true 
+    accounts:
+      main:
+        bot_token: "${DISCORD_BOT_TOKEN}"
+        allowed_channels: [1505383554597523708, 1505384147089096776]
+        no_mention: true
+        enabled: true
+    default_account: main
 
 subagents:
   max_concurrent: 4

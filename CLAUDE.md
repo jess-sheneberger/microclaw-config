@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-A deployment-only directory for running the upstream `ghcr.io/microclaw/microclaw:latest` container. There is no application source here — only the compose file, the runtime config, and the bind-mounted state directories. Treat this as ops/config, not a codebase.
+A deployment-only directory for running a thin wrapper (`Dockerfile`) around the upstream `ghcr.io/microclaw/microclaw:latest` container. The wrapper exists only to layer the `docker` CLI on top — microclaw's sandbox backend shells out to `docker` as a subprocess, and the upstream image doesn't ship it. There is no application source here — only the Dockerfile, the compose file, the runtime config, and the bind-mounted state directories. Treat this as ops/config, not a codebase.
 
 ## Commands
 
-- Bring up the stack: `./up.sh` (preferred). Renders `microclaw.config.yaml.template` → `microclaw.config.yaml` with env-var substitution via `yq … envsubst(nu)`, chmods the output to `640`, then `docker compose up -d --force-recreate`. Requires `yq` (mikefarah Go binary, not the Python `yq` of the same name) on `PATH`.
+- Bring up the stack: `./up.sh` (preferred). Renders `microclaw.config.yaml.template` → `microclaw.config.yaml` with env-var substitution via `yq … envsubst(nu)`, chmods the output to `640`, then `docker compose up -d --build --force-recreate`. The `--build` rebuilds the wrapper image when the Dockerfile changes (it's a cheap no-op when nothing changed). Requires `yq` (mikefarah Go binary, not the Python `yq` of the same name) on `PATH`.
 - Stop: `docker compose down`
 - Logs: `docker compose logs -f`
-- Pull a newer image: `docker compose pull && ./up.sh`
+- Pull a newer upstream image: `docker compose build --pull && ./up.sh`. `docker compose pull` alone won't help here — the locally-tagged `microclaw-local:latest` is not in a registry; what you actually want to refresh is the `FROM` in the Dockerfile, which is what `build --pull` does.
 
 `.env` (gitignored) holds every `${VAR}` referenced in the template (at minimum `ANTHROPIC_API_TOKEN`, `DISCORD_BOT_TOKEN`) plus optionally `DOCKER_GID`. It is consumed by `up.sh` for template substitution — *not* by compose for env passthrough. The `(nu)` mode of `envsubst` makes the render fail loudly if any referenced var is unset.
 
