@@ -1,0 +1,13 @@
+services:
+  microclaw:
+    image: ghcr.io/microclaw/microclaw:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:10961:10961"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./microclaw.config.yaml:/app/microclaw.config.yaml:ro
+      - ./data:/home/microclaw/.microclaw
+      - ./tmp:/app/tmp
+    group_add:
+      - "${DOCKER_GID:-973}"
