@@ -8,12 +8,18 @@ channels:
   discord:
     enabled: true
     accounts:
-      main:
+      microclaw:
         bot_token: "${DISCORD_BOT_TOKEN}"
-        allowed_channels: [1505383554597523708, 1505384147089096776]
+        allowed_channels: [1505384147089096776]
+        no_mention: true               # sole bot in this channel, no @-mention needed
+        provider_preset: "lmstudio"
+        enabled: true
+      anthropic:
+        bot_token: "${DISCORD_BOT_TOKEN_ANTHROPIC}"
+        allowed_channels: [1505383554597523708]
         no_mention: true
         enabled: true
-    default_account: main
+    default_account: anthropic
 
 subagents:
   max_concurrent: 4
@@ -45,6 +51,12 @@ model: "claude-sonnet-4-5-20250929"
 #   deepseek-hk:
 #     provider: "deepseek"
 #     api_key: "sk-..."
+provider_presets:
+  lmstudio:
+    provider: "openai"
+    api_key: "lm-studio"                                  # ignored by LMStudio, field required
+    llm_base_url: "http://host.docker.internal:1234/v1"   # -> neptune lmstudio-proxy (HAProxy)
+    default_model: "mistralai/devstral-small-2-2512"
 # Show model thinking/reasoning text when available
 show_thinking: false
 # OpenAI-compatible request body overrides (optional)

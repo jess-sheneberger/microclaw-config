@@ -8,7 +8,17 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./microclaw.config.yaml:/app/microclaw.config.yaml:ro
-      - ./data:/home/microclaw/.microclaw
+      # DinD path symmetry: the source MUST be the same absolute path as the
+      # target so that when microclaw asks the host docker daemon to bind-mount
+      # a working_dir into a sibling sandbox container, the daemon resolves the
+      # path on the host (not the microclaw container) and finds real files.
+      # The host should expose /home/microclaw/.microclaw as a symlink to the
+      # real data dir (e.g. ln -s /home/jess/home/microclaw/data
+      # /home/microclaw/.microclaw); docker resolves the symlink at mount time.
+      - /home/microclaw/.microclaw:/home/microclaw/.microclaw
       - ./tmp:/app/tmp
     group_add:
       - "${DOCKER_GID:-973}"
+    extra_hosts:
+      # reach the host-network HAProxy (lmstudio-proxy) that fronts jessmac's LMStudio
+      - "host.docker.internal:host-gateway"
