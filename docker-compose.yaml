@@ -1,6 +1,12 @@
 name: microclaw
 
 services:
+  lmstudio-proxy:
+    build: lmstudio-proxy
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   microclaw:
     image: microclaw-local:latest
     build:
