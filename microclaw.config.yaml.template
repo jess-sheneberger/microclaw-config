@@ -99,6 +99,9 @@ max_history_messages: 10
 max_session_messages: 20
 compact_keep_recent: 10
 
+tool_timeout_overrides:
+  a2a_send: 180
+
 a2a:
   enabled: true
   agent_name: "microclaw"
