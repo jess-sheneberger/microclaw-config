@@ -9,10 +9,14 @@ RUN npm run build
 # Stage 2: build the Rust binary (web/dist pre-built, skip npm in build.rs)
 # rust:bookworm matches the Debian 12 base of the final image (glibc 2.36).
 FROM rust:bookworm AS rust-builder
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends mold \
+ && rm -rf /var/lib/apt/lists/*
 WORKDIR /build
 COPY microclaw/ .
 COPY --from=web-builder /build/web/dist ./web/dist
-RUN MICROCLAW_SKIP_WEB_BUILD=1 cargo build --release --bin microclaw
+RUN MICROCLAW_SKIP_WEB_BUILD=1 RUSTFLAGS="-C link-arg=-fuse-ld=mold" \
+    cargo build --release --bin microclaw
 
 # Stage 3: final image — upstream base (system config, entrypoint, etc.)
 # plus the docker CLI for sandbox and our locally-built binary
