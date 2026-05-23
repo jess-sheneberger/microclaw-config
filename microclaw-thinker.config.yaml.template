@@ -31,3 +31,5 @@ a2a:
   enabled: true
   agent_name: "thinker"
   agent_description: "27B thinking agent for complex reasoning and coding"
+  shared_tokens:
+    - "${A2A_THINKER_TOKEN}"

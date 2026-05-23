@@ -107,6 +107,7 @@ a2a:
       enabled: true
       base_url: "http://microclaw-thinker:10962"
       description: "27B thinking agent for complex reasoning and coding tasks"
+      bearer_token: "${A2A_THINKER_TOKEN}"
 
 # Optional SOUL files directory (defaults to <data_dir>/souls)
 souls_dir: "/home/jess/.microclaw/souls"
