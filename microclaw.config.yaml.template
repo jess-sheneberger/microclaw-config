@@ -90,7 +90,7 @@ sandbox:
   require_runtime: true
 
 # Memory reflector: periodically extracts structured memories from conversations
-reflector_enabled: false
+reflector_enabled: true
 reflector_interval_mins: 15
 memory_token_budget: 1500
 
