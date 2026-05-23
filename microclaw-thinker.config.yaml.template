@@ -19,6 +19,7 @@ data_dir: "/home/microclaw/.microclaw-thinker"
 working_dir: "/home/microclaw/.microclaw-thinker/working_dir"
 override_timezone: "America/Denver"
 high_risk_tool_user_confirmation_required: false
+web_host: "0.0.0.0"
 web_port: 10962
 
 sandbox:
