@@ -1,6 +1,18 @@
 name: microclaw
 
 services:
+  microclaw-thinker:
+    image: microclaw-local:latest
+    build:
+      context: ..
+      dockerfile: microclaw-config/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./microclaw-thinker.config.yaml:/app/microclaw.config.yaml:ro
+      - ./thinker-data:/home/microclaw/.microclaw-thinker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   lmstudio-proxy:
     build: lmstudio-proxy
     restart: unless-stopped

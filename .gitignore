@@ -1,4 +1,6 @@
 .env
 microclaw.config.yaml
+microclaw-thinker.config.yaml
 data
 tmp
+thinker-data

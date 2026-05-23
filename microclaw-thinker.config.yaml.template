@@ -1,0 +1,32 @@
+# MicroClaw thinker — A2A back-end agent for complex reasoning
+# Web-only (no Discord). Receives tasks from the main bot via A2A HTTP.
+
+channels:
+  web:
+    enabled: true
+
+subagents:
+  enabled: false
+
+llm_provider: "anthropic"
+api_key: "lm-studio"
+model: "qwen3.6-27b-mtp"
+llm_base_url: "http://lmstudio-proxy:1290"
+# No enable_thinking override — Qwen3 thinks by default
+show_thinking: false
+
+data_dir: "/home/microclaw/.microclaw-thinker"
+working_dir: "/home/microclaw/.microclaw-thinker/working_dir"
+override_timezone: "America/Denver"
+high_risk_tool_user_confirmation_required: false
+web_port: 10962
+
+sandbox:
+  mode: "off"
+
+reflector_enabled: false
+
+a2a:
+  enabled: true
+  agent_name: "thinker"
+  agent_description: "27B thinking agent for complex reasoning and coding"
