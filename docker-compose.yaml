@@ -1,3 +1,5 @@
+name: microclaw
+
 services:
   microclaw:
     image: microclaw-local:latest
@@ -13,7 +15,7 @@ services:
       # a working_dir into a sibling sandbox container, the daemon resolves the
       # path on the host (not the microclaw container) and finds real files.
       # The host should expose /home/microclaw/.microclaw as a symlink to the
-      # real data dir (e.g. ln -s /home/jess/home/microclaw/data
+      # real data dir (e.g. ln -s /home/jess/home/microclaw-config/data
       # /home/microclaw/.microclaw); docker resolves the symlink at mount time.
       - /home/microclaw/.microclaw:/home/microclaw/.microclaw
       - ./tmp:/app/tmp

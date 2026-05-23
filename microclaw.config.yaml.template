@@ -23,8 +23,9 @@ channels:
     default_account: clawde
 
 subagents:
-  max_concurrent: 4
-  max_active_per_chat: 5
+  enabled: false
+  max_concurrent: 0
+  max_active_per_chat: 0
   run_timeout_secs: 900
   announce_to_chat: true
   max_spawn_depth: 1
@@ -57,7 +58,7 @@ provider_presets:
     provider: "anthropic"
     api_key: "lm-studio"                              # ignored by LMStudio, field required
     llm_base_url: "http://host.docker.internal:1234"  # Anthropic /v1/messages via neptune lmstudio-proxy; microclaw appends the path
-    default_model: "qwen3.6-27b-mtp"
+    default_model: "qwen3.5-9b-mtp"
   minimax:
     provider: "anthropic"
     api_key: "${MINIMAX_API_KEY}"
@@ -89,7 +90,7 @@ sandbox:
   require_runtime: true
 
 # Memory reflector: periodically extracts structured memories from conversations
-reflector_enabled: true
+reflector_enabled: false
 reflector_interval_mins: 15
 memory_token_budget: 1500
 

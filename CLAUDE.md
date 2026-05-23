@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-A deployment-only directory for running a thin wrapper (`Dockerfile`) around the upstream `ghcr.io/microclaw/microclaw:latest` container. The wrapper exists only to layer the `docker` CLI on top — microclaw's sandbox backend shells out to `docker` as a subprocess, and the upstream image doesn't ship it. There is no application source here — only the Dockerfile, the compose file, the runtime config, and the bind-mounted state directories. Treat this as ops/config, not a codebase.
+This is the **deployment config repo** for microclaw — known locally as `microclaw-config/` (GitHub: `catastrophe-app/microclaw`). It contains a thin `Dockerfile` wrapper around the upstream `ghcr.io/microclaw/microclaw:latest` container (the wrapper exists only to layer the `docker` CLI on top). There is no application source here — only the Dockerfile, the compose file, the runtime config, and the bind-mounted state directories. Treat this as ops/config, not a codebase.
+
+The **microclaw application source** lives at `../microclaw/` (cloned separately from the upstream repo). Do not confuse the two directories.
 
 ## Commands
 
