@@ -13,6 +13,9 @@ yq '(.. | select(tag == "!!str")) |= envsubst(nu)' microclaw.config.yaml.templat
 chmod 640 microclaw.config.yaml
 yq '(.. | select(tag == "!!str")) |= envsubst(nu)' microclaw-thinker.config.yaml.template > microclaw-thinker.config.yaml
 chmod 640 microclaw-thinker.config.yaml
+if [ "$(stat -c '%g' microclaw-thinker.config.yaml)" != "10001" ]; then
+    sudo chgrp 10001 microclaw-thinker.config.yaml
+fi
 # Container's microclaw user is uid/gid 10001; the host file's group must match
 # so the bind-mount is readable inside the container. `>` preserves ownership on
 # existing files, so after the first run this stays a no-op.
