@@ -7,7 +7,8 @@ COPY microclaw/web/ ./
 RUN npm run build
 
 # Stage 2: build the Rust binary (web/dist pre-built, skip npm in build.rs)
-FROM rust:latest AS rust-builder
+# rust:bookworm matches the Debian 12 base of the final image (glibc 2.36).
+FROM rust:bookworm AS rust-builder
 WORKDIR /build
 COPY microclaw/ .
 COPY --from=web-builder /build/web/dist ./web/dist
