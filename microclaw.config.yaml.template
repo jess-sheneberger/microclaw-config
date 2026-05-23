@@ -94,6 +94,7 @@ reflector_enabled: true
 reflector_interval_mins: 15
 memory_token_budget: 1500
 max_history_messages: 10
+max_session_messages: 20
 
 # Optional SOUL files directory (defaults to <data_dir>/souls)
 souls_dir: "/home/jess/.microclaw/souls"
