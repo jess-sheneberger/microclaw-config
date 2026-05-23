@@ -3,7 +3,9 @@ name: microclaw
 services:
   microclaw:
     image: microclaw-local:latest
-    build: .
+    build:
+      context: ..
+      dockerfile: microclaw-config/Dockerfile
     restart: unless-stopped
     ports:
       - "127.0.0.1:10961:10961"

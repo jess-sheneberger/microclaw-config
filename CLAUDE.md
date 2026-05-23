@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-This is the **deployment config repo** for microclaw — known locally as `microclaw-config/` (GitHub: `catastrophe-app/microclaw`). It contains a thin `Dockerfile` wrapper around the upstream `ghcr.io/microclaw/microclaw:latest` container (the wrapper exists only to layer the `docker` CLI on top). There is no application source here — only the Dockerfile, the compose file, the runtime config, and the bind-mounted state directories. Treat this as ops/config, not a codebase.
+This is the **deployment config repo** for microclaw — known locally as `microclaw-config/` (GitHub: `catastrophe-app/microclaw`). It contains a multi-stage `Dockerfile` that builds microclaw from the source in `../microclaw/` (Node → Rust → final image based on `ghcr.io/microclaw/microclaw:latest` for system config and entrypoint). The `docker` CLI is layered on top for sandbox support. There is no application source here — only the Dockerfile, the compose file, the runtime config, and the bind-mounted state directories. Treat this as ops/config, not a codebase.
 
 The **microclaw application source** lives at `../microclaw/` (cloned separately from the upstream repo). Do not confuse the two directories.
 
@@ -13,7 +13,7 @@ The **microclaw application source** lives at `../microclaw/` (cloned separately
 - Bring up the stack: `./up.sh` (preferred). Renders `microclaw.config.yaml.template` → `microclaw.config.yaml` with env-var substitution via `yq … envsubst(nu)`, chmods the output to `640`, then `docker compose up -d --build --force-recreate`. The `--build` rebuilds the wrapper image when the Dockerfile changes (it's a cheap no-op when nothing changed). Requires `yq` (mikefarah Go binary, not the Python `yq` of the same name) on `PATH`.
 - Stop: `docker compose down`
 - Logs: `docker compose logs -f`
-- Pull a newer upstream image: `docker compose build --pull && ./up.sh`. `docker compose pull` alone won't help here — the locally-tagged `microclaw-local:latest` is not in a registry; what you actually want to refresh is the `FROM` in the Dockerfile, which is what `build --pull` does.
+- Pull a newer upstream base image: `docker compose build --pull && ./up.sh`. `docker compose pull` alone won't help here — the locally-tagged `microclaw-local:latest` is not in a registry; what you actually want to refresh is the `FROM ghcr.io/microclaw/microclaw:latest` in the final stage, which is what `build --pull` does. The Rust build stage is cached separately and only reruns when source changes.
 
 `.env` (gitignored) holds every `${VAR}` referenced in the template (at minimum `ANTHROPIC_API_TOKEN`, `DISCORD_BOT_TOKEN`) plus optionally `DOCKER_GID`. It is consumed by `up.sh` for template substitution — *not* by compose for env passthrough. The `(nu)` mode of `envsubst` makes the render fail loudly if any referenced var is unset.
 
