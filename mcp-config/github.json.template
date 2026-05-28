@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "github": {
+      "transport": "streamable_http",
+      "url": "http://gh-mcp:8082",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_PAT}"
+      }
+    }
+  }
+}

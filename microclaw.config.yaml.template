@@ -5,22 +5,6 @@
 channels:
   web:
     enabled: true
-  discord:
-    enabled: true
-    accounts:
-      microclaw:
-        bot_token: "${DISCORD_BOT_TOKEN}"
-        allowed_channels: [1505384147089096776]
-        no_mention: true               # sole bot in this channel, no @-mention needed
-        provider_preset: "lmstudio"
-        enabled: true
-      clawde:
-        bot_token: "${DISCORD_BOT_TOKEN_ANTHROPIC}"   # env var still named _ANTHROPIC; bot renamed clawde, now routes to MiniMax
-        allowed_channels: [1505383554597523708]
-        no_mention: true
-        provider_preset: "minimax"
-        enabled: true
-    default_account: clawde
 
 subagents:
   enabled: false
@@ -37,10 +21,9 @@ subagents:
 
 # LLM provider (anthropic, openai-codex, ollama, openai, openrouter, deepseek, synthetic, chutes, google, etc.)
 llm_provider: "anthropic"
-# API key for LLM provider
-api_key: "${ANTHROPIC_API_TOKEN}"
-# Model name (leave empty for provider default)
-model: "claude-sonnet-4-5-20250929"
+api_key: "lm-studio"
+llm_base_url: "http://lmstudio-proxy:1290"
+model: "qwen3.5-9b-mtp"
 # Optional reusable provider profiles for per-bot/channel selection
 # provider_presets:
 #   provider1:
@@ -54,18 +37,18 @@ model: "claude-sonnet-4-5-20250929"
 #     provider: "deepseek"
 #     api_key: "sk-..."
 provider_presets:
+  anthropic:
+    provider: "anthropic"
+    api_key: "${ANTHROPIC_API_TOKEN}"
+    default_model: "claude-sonnet-4-6"
   lmstudio:
     provider: "anthropic"
-    api_key: "lm-studio"                              # ignored by LMStudio, field required
+    api_key: "lm-studio"  # ignored by LMStudio, field required
     llm_base_url: "http://lmstudio-proxy:1290"  # timing proxy → host.docker.internal:1234 (neptune lmstudio HAProxy)
     default_model: "qwen3.5-9b-mtp"
     openai_compat_body_overrides:
       enable_thinking: false
-  minimax:
-    provider: "anthropic"
-    api_key: "${MINIMAX_API_KEY}"
-    llm_base_url: "https://api.minimax.io/anthropic"
-    default_model: "MiniMax-M2.7"
+
 # Show model thinking/reasoning text when available
 show_thinking: false
 # OpenAI-compatible request body overrides (optional)
@@ -76,6 +59,7 @@ show_thinking: false
 # openai_compat_body_overrides_by_model:
 #   gpt-5.2: { response_format: { type: "json_object" } }
 
+web_host: "0.0.0.0"
 data_dir: "/home/microclaw/.microclaw"
 working_dir: "/home/microclaw/.microclaw/working_dir"
 # Optional timezone override (IANA), e.g. Asia/Shanghai. Default: system timezone.
@@ -90,6 +74,9 @@ sandbox:
   container_prefix: "microclaw-sandbox"
   no_network: true
   require_runtime: true
+  extra_mounts:
+    - path: /home/jess/home
+      read_only: false
 
 # Memory reflector: periodically extracts structured memories from conversations
 reflector_enabled: true

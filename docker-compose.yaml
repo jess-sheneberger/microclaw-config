@@ -1,6 +1,13 @@
 name: microclaw
 
 services:
+  gh-mcp:
+    image: ghcr.io/github/github-mcp-server:latest
+    restart: unless-stopped
+    environment:
+      GITHUB_PERSONAL_ACCESS_TOKEN: ${GITHUB_PAT}
+    command: ["http", "--port", "8082", "--toolsets", "git,issues,pull_requests,repos"]
+
   microclaw-thinker:
     image: microclaw-local:latest
     build:
@@ -26,7 +33,7 @@ services:
       dockerfile: microclaw-config/Dockerfile
     restart: unless-stopped
     ports:
-      - "127.0.0.1:10961:10961"
+      - "10961:10961"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./microclaw.config.yaml:/app/microclaw.config.yaml:ro
