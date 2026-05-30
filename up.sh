@@ -10,7 +10,7 @@ cp -f sandbox-path-allowlist.txt data/sandbox-path-allowlist.txt
 set -a; . ./.env; set +a
 
 yq -o json '(.. | select(tag == "!!str")) |= envsubst(nu)' mcp-config/github.json.template > data/mcp.d/github.json
-yq '(.. | select(tag == "!!str")) |= envsubst(nu)' microclaw.config.yaml.template > microclaw.config.yaml
+yq '(.. | select(tag == "!!str")) |= envsubst(nu)' microclaw.config.template.yaml > microclaw.config.yaml
 chmod 640 microclaw.config.yaml
 yq '(.. | select(tag == "!!str")) |= envsubst(nu)' microclaw-thinker.config.yaml.template > microclaw-thinker.config.yaml
 chmod 640 microclaw-thinker.config.yaml

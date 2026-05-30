@@ -37,10 +37,10 @@ model: "qwen3.5-9b-mtp"
 #     provider: "deepseek"
 #     api_key: "sk-..."
 provider_presets:
-  anthropic:
+  anthropic-api:
     provider: "anthropic"
     api_key: "${ANTHROPIC_API_TOKEN}"
-    default_model: "claude-sonnet-4-6"
+    default_model: "qwen3.5-9b-mtp"
   lmstudio:
     provider: "anthropic"
     api_key: "lm-studio"  # ignored by LMStudio, field required
