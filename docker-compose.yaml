@@ -1,13 +1,6 @@
 name: microclaw
 
 services:
-  gh-mcp:
-    image: ghcr.io/github/github-mcp-server:latest
-    restart: unless-stopped
-    environment:
-      GITHUB_PERSONAL_ACCESS_TOKEN: ${GITHUB_PAT}
-    command: ["http", "--port", "8082", "--toolsets", "issues,pull_requests,repos"]
-
   git-mcp:
     image: node:lts-slim
     restart: unless-stopped
