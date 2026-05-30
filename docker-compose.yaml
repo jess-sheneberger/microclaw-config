@@ -12,6 +12,10 @@ services:
       MCP_HTTP_HOST: "0.0.0.0"
       MCP_HTTP_PORT: "3015"
       GIT_BASE_DIR: /repos
+      GITHUB_PERSONAL_ACCESS_TOKEN: ${GITHUB_PAT}
+      GIT_CONFIG_COUNT: "1"
+      GIT_CONFIG_KEY_0: "credential.https://github.com.helper"
+      GIT_CONFIG_VALUE_0: "!f() { echo username=token; echo password=$GITHUB_PERSONAL_ACCESS_TOKEN; }; f"
     command: ["npx", "-y", "@cyanheads/git-mcp-server@latest"]
 
   microclaw-thinker:
