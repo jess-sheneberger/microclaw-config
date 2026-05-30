@@ -7,6 +7,8 @@ services:
     environment:
       GITHUB_PERSONAL_ACCESS_TOKEN: ${GITHUB_PAT}
     command: ["http", "--port", "8082", "--toolsets", "git,issues,pull_requests,repos"]
+    volumes:
+      - /home/jess/home/github-mcp/repos:/repos
 
   microclaw-thinker:
     image: microclaw-local:latest
