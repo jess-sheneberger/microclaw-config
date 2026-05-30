@@ -1,5 +1,6 @@
 # MicroClaw configuration
 
+
 # Channel settings (set `enabled: false` to keep credentials without activating the channel)
 # setup wizard default: web when no channels are selected
 channels:
