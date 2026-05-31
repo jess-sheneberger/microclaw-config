@@ -54,7 +54,7 @@ services:
       # The host should expose /home/microclaw/.microclaw as a symlink to the
       # real data dir (e.g. ln -s /home/jess/home/microclaw-config/data
       # /home/microclaw/.microclaw); docker resolves the symlink at mount time.
-      - /home/microclaw/.microclaw:/home/microclaw/.microclaw
+      - ./data/runtime:/home/microclaw/.microclaw/runtime
       - /home/jess/.microclaw/working_dir:/home/jess/.microclaw/working_dir
       - ./tmp:/app/tmp
     group_add:
