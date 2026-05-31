@@ -26,7 +26,8 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends docker.io \
  && rm -rf /var/lib/apt/lists/*
 COPY --from=rust-builder /build/target/release/microclaw /usr/local/bin/microclaw
-RUN mkdir -p /home/microclaw/.microclaw/mcp.d /home/microclaw/.microclaw/skills
+RUN mkdir -p /home/microclaw/.microclaw/mcp.d /home/microclaw/.microclaw/skills \
+ && chown -R microclaw:microclaw /home/microclaw/.microclaw
 COPY --chown=microclaw:microclaw microclaw-config/mcp-config/git.json /home/microclaw/.microclaw/mcp.d/git.json
 COPY --chown=microclaw:microclaw microclaw-config/skills/ /home/microclaw/.microclaw/skills/
 COPY --chown=microclaw:microclaw microclaw-config/sandbox-path-allowlist.txt /home/microclaw/.microclaw/sandbox-path-allowlist.txt
