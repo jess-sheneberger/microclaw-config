@@ -75,7 +75,7 @@ sandbox:
   no_network: true
   require_runtime: true
   extra_mounts:
-    - path: /home/jess/home
+    - path: /home/jess/.microclaw/working_dir/repos
       read_only: false
 
 # Memory reflector: periodically extracts structured memories from conversations
