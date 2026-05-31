@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     working_dir: /repos
     volumes:
-      - /home/jess/home/github-mcp/repos:/repos
+      - /home/microclaw/.microclaw/working_dir/repos:/repos
     environment:
       MCP_TRANSPORT_TYPE: http
       MCP_HTTP_HOST: "0.0.0.0"
