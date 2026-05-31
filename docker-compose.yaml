@@ -17,6 +17,12 @@ services:
       GIT_CONFIG_KEY_0: "credential.https://github.com.helper"
       GIT_CONFIG_VALUE_0: "!f() { echo username=token; echo password=$$GITHUB_PERSONAL_ACCESS_TOKEN; }; f"
     command: ["npx", "-y", "@cyanheads/git-mcp-server@latest"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3015/mcp', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
 
   microclaw-thinker:
     image: microclaw-local:latest
@@ -37,6 +43,9 @@ services:
       - "host.docker.internal:host-gateway"
 
   microclaw:
+    depends_on:
+      git-mcp:
+        condition: service_healthy
     image: microclaw-local:latest
     build:
       context: ..
