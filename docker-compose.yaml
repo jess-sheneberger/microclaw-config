@@ -7,12 +7,6 @@ services:
     environment:
       GITHUB_PERSONAL_ACCESS_TOKEN: ${GITHUB_PAT}
     command: ["http", "--port", "8082", "--toolsets", "issues,pull_requests,repos"]
-    healthcheck:
-      test: ["CMD", "sh", "-c", "nc -z localhost 8082"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-      start_period: 10s
 
   git-mcp:
     image: node:lts-slim
@@ -60,7 +54,7 @@ services:
       git-mcp:
         condition: service_healthy
       gh-mcp:
-        condition: service_healthy
+        condition: service_started
     image: microclaw-local:latest
     build:
       context: ..
