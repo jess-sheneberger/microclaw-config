@@ -1,6 +1,19 @@
 name: microclaw
 
 services:
+  gh-mcp:
+    image: ghcr.io/github/github-mcp-server:latest
+    restart: unless-stopped
+    environment:
+      GITHUB_PERSONAL_ACCESS_TOKEN: ${GITHUB_PAT}
+    command: ["http", "--port", "8082", "--toolsets", "issues,pull_requests,repos"]
+    healthcheck:
+      test: ["CMD", "sh", "-c", "nc -z localhost 8082"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
   git-mcp:
     image: node:lts-slim
     restart: unless-stopped
@@ -46,6 +59,8 @@ services:
     depends_on:
       git-mcp:
         condition: service_healthy
+      gh-mcp:
+        condition: service_healthy
     image: microclaw-local:latest
     build:
       context: ..
@@ -64,6 +79,7 @@ services:
       # real data dir (e.g. ln -s /home/jess/home/microclaw-config/data
       # /home/microclaw/.microclaw); docker resolves the symlink at mount time.
       - ./data/runtime:/home/microclaw/.microclaw/runtime
+      - ./data/mcp.d/github.json:/home/microclaw/.microclaw/mcp.d/github.json
       - /home/jess/.microclaw/working_dir:/home/jess/.microclaw/working_dir
       - ./tmp:/app/tmp
     group_add:
