@@ -61,7 +61,7 @@ show_thinking: false
 
 web_host: "0.0.0.0"
 data_dir: "/home/microclaw/.microclaw"
-working_dir: "/home/microclaw/.microclaw/working_dir"
+working_dir: "/home/jess/.microclaw/working_dir"
 # Optional timezone override (IANA), e.g. Asia/Shanghai. Default: system timezone.
 override_timezone: "America/Denver"
 high_risk_tool_user_confirmation_required: true

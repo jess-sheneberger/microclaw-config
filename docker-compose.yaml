@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     working_dir: /repos
     volumes:
-      - /home/microclaw/.microclaw/working_dir/repos:/repos
+      - /home/jess/.microclaw/working_dir/repos:/repos
     environment:
       MCP_TRANSPORT_TYPE: http
       MCP_HTTP_HOST: "0.0.0.0"
@@ -55,6 +55,7 @@ services:
       # real data dir (e.g. ln -s /home/jess/home/microclaw-config/data
       # /home/microclaw/.microclaw); docker resolves the symlink at mount time.
       - /home/microclaw/.microclaw:/home/microclaw/.microclaw
+      - /home/jess/.microclaw/working_dir:/home/jess/.microclaw/working_dir
       - ./tmp:/app/tmp
     group_add:
       - "${DOCKER_GID:-973}"
